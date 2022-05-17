@@ -1,14 +1,11 @@
-import PropTypes from 'prop-types';
 import s from './ImageGallery.module.css';
-import ImageGalleryItem from 'components/ImageGalleryItem';
 import { PureComponent } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import ImageGalleryItem from 'components/ImageGalleryItem';
 import Loader from '../Loader';
 import Button from '../Button';
 import Modal from 'components/Modal';
-
-const BASE_URL = 'https://pixabay.com/api';
-const API_KEY = '25787045-a8ddf7324e727a4045d3f3d7c';
+import { fetchImages } from 'services/FetchImages';
 
 export default class ImageGallery extends PureComponent {
     state = {
@@ -39,7 +36,7 @@ export default class ImageGallery extends PureComponent {
             const { page } = this.state;
             this.setState({ loading: true, page: 1, images: [] });
             try {
-                await axios.get(`${BASE_URL}/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+                await fetchImages(query, page)
                     .then(response =>
                         this.setState({ images: response.data.hits, total: response.data.totalHits }));
             } catch (error) {
@@ -53,8 +50,8 @@ export default class ImageGallery extends PureComponent {
             const { page, images } = this.state;
             this.setState({ loading: true });
             try {
-                await axios.get(`${BASE_URL}/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
-                    .then(response =>
+                await fetchImages(query, page)
+                .then(response =>
                         this.setState({ images: images.concat(response.data.hits) }));
             } catch (error) {
                 this.setState({ error });
