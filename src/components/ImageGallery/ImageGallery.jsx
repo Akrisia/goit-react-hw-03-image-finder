@@ -31,28 +31,15 @@ export default class ImageGallery extends PureComponent {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.query !== this.props.query) {
-            const { query } = this.props;
-            const { page } = this.state;
-            this.setState({ loading: true, page: 1, images: [] });
-            try {
-                await fetchImages(query, page)
-                    .then(response =>
-                        this.setState({ images: response.data.hits, total: response.data.totalHits }));
-            } catch (error) {
-                this.setState({ error });
-            } finally {
-                this.setState({ loading: false });
-            }
-        }
-        if (prevState.page !== this.state.page) {
+        if (prevProps.query !== this.props.query
+        || prevState.page !== this.state.page) {
             const { query } = this.props;
             const { page, images } = this.state;
             this.setState({ loading: true });
             try {
                 await fetchImages(query, page)
-                .then(response =>
-                        this.setState({ images: images.concat(response.data.hits) }));
+                    .then(response =>
+                        this.setState({ images: images.concat(response.data.hits), total: response.data.totalHits }));
             } catch (error) {
                 this.setState({ error });
             } finally {
