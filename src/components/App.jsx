@@ -18,7 +18,7 @@ export default class App extends PureComponent {
   };
 
   onSubmit = ({ query }) => {
-    this.setState({ query });
+    this.setState({ query, page: 1 });
   };
 
   handleImages = ({ images, total, loading }) => {

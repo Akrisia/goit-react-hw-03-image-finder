@@ -12,15 +12,21 @@ export default class ImageGallery extends PureComponent {
         error: null
     };
 
-    async componentDidUpdate(prevProps, prevState) {
+    async componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
-            const { query, page } = this.props;
+            const { page, query } = this.props;
             const { images } = this.state;
             this.setState({ loading: true });
             try {
                 await fetchImages(query, page)
                     .then(response =>
-                        this.setState({ images: images.concat(response.data.hits), total: response.data.totalHits }));
+                        this.setState({
+                            images:
+                                prevProps.query !== this.props.query
+                                    ? response.data.hits
+                                    : images.concat(response.data.hits),
+                            total: response.data.totalHits
+                        }));
             } catch (error) {
                 this.setState({ error });
             } finally {

@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 
 export default class Button extends PureComponent {
     state = {
-        page: this.props.page,
+        page: 1,
+    };
+
+    componentDidUpdate() {
+        this.setState({ page: this.props.page });
     };
 
     render() {
