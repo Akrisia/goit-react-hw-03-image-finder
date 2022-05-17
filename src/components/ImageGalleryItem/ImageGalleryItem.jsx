@@ -5,7 +5,7 @@ import s from './ImageGalleryItem.module.css';
 export default class ImageGalleryItem extends PureComponent {
     state = {
         id: this.props.imageId,
-    }
+    };
 
     render() {
         const { webformatURL, tags, imageId } = this.props;

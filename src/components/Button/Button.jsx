@@ -20,6 +20,7 @@ export default class Button extends PureComponent {
 };
 
 Button.propTypes = {
-    page: PropTypes.number.isRequired
+    page: PropTypes.number.isRequired,
+    onLoadMore: PropTypes.func.isRequired
 };
 
